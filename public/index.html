@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fragments of Us</title>
+  <meta name="description" content="Fragments of Us: one shared memory, reconstructed every time someone adds to it.">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <span class="mark">fragments of us</span>
+    <nav>
+      <button type="button" class="link" id="open-erase">erase my trace</button>
+      <a href="/privacy">privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="memory" aria-labelledby="memory-label">
+      <h1 id="memory-label" class="visually-hidden">The current memory</h1>
+      <div id="canvas-holder" aria-hidden="true"></div>
+      <p id="plain" class="plain" aria-live="polite"></p>
+      <div class="meta">
+        <span id="count">&nbsp;</span>
+        <button type="button" class="link" id="toggle-plain" aria-pressed="false">read plainly</button>
+      </div>
+    </section>
+
+    <section class="contribute" id="contribute">
+      <form id="form" novalidate>
+        <label for="message" class="visually-hidden">Your message</label>
+        <textarea id="message" name="message" maxlength="140" rows="2" placeholder="leave a few words…" required></textarea>
+        <div class="row">
+          <span id="chars" class="muted">0 / 140</span>
+        </div>
+
+        <!-- spam trap: hidden from people, tempting to bots -->
+        <div class="trap" aria-hidden="true">
+          <label>Website <input type="text" name="website" id="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <div class="notice">
+          <p><strong>Before you add to the memory</strong></p>
+          <ul>
+            <li>Your words become public, but never as you wrote them. The memory retells everything in its own words: your subject is paired with someone else's actions, "I" and "you" become "someone" and "they", everything moves into the past tense, and words are swapped for near-synonyms. Nobody, including you, can read your original message back out of it.</li>
+            <li>Over time the memory will also rearrange, combine, overwrite and eventually forget your words, alongside everyone else's.</li>
+            <li>Do not include names, places, contact details, or anything that could identify you or someone else. Messages that look like they do are turned away.</li>
+            <li>You will get a private deletion token, shown once. It is the only way to erase your words later. We store only a scrambled version of it.</li>
+            <li>Erasing removes your words and every stored result that depended on them, so the memory changes. It cannot remove screenshots or copies other people have already made.</li>
+            <li>There is no limit on how many messages you can add. The only things turned away are identifying details, abusive language, and an exact repeat of something already added today.</li>
+            <li>We keep no accounts, cookies or IP addresses, but anonymity is not absolute: your writing style or what you say can still point to you.</li>
+          </ul>
+          <label class="consent">
+            <input type="checkbox" id="consent">
+            <span>I understand my words will be shown publicly and transformed, and I've left out identifying information. (<a href="/privacy">privacy policy</a>)</span>
+          </label>
+        </div>
+
+        <div class="row">
+          <button type="submit" id="submit" disabled>add to the memory</button>
+          <span id="form-status" class="status" role="status"></span>
+        </div>
+      </form>
+
+      <div id="result" class="panel" hidden>
+        <p class="panel-title">Your words entered the memory.</p>
+        <ul id="log" class="log"></ul>
+        <div class="token-box">
+          <p>Your deletion token. Save it now. It will not be shown again and cannot be recovered.</p>
+          <code id="token"></code>
+          <div class="row">
+            <button type="button" id="copy-token">copy</button>
+            <button type="button" id="keep-token" class="ghost-btn">keep on this device</button>
+          </div>
+          <p class="muted small">"Keep on this device" saves the token only in this browser's local storage, so this browser can erase your trace later. Anyone using this browser could too.</p>
+        </div>
+        <button type="button" class="link" id="again">add something else</button>
+      </div>
+    </section>
+
+    <dialog id="erase" aria-labelledby="erase-title">
+      <form method="dialog" class="close-form"><button class="link" aria-label="Close">close</button></form>
+      <h2 id="erase-title">Erase my trace</h2>
+      <p>Paste your deletion token. Your words are removed, every stored version that depended on them is cleared, and the memory is rebuilt without you. What it says afterwards may change in ways you did not expect.</p>
+      <form id="erase-form">
+        <label for="erase-token" class="visually-hidden">Deletion token</label>
+        <input id="erase-token" type="text" autocomplete="off" spellcheck="false" placeholder="your token">
+        <div id="saved-tokens"></div>
+        <div class="row">
+          <button type="submit">erase</button>
+          <span id="erase-status" class="status" role="status"></span>
+        </div>
+      </form>
+      <div id="erase-result" hidden>
+        <p class="muted small">before</p>
+        <p id="erase-before" class="diff before"></p>
+        <p class="muted small">after</p>
+        <p id="erase-after" class="diff"></p>
+      </div>
+    </dialog>
+  </main>
+
+  <script src="/vendor/p5.min.js"></script>
+  <script src="/sketch.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

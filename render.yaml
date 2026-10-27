@@ -1,0 +1,24 @@
+# Render Blueprint: New > Blueprint, then pick this repository.
+services:
+  - type: web
+    name: fragments-of-us
+    runtime: node
+    plan: starter            # a persistent disk needs a paid instance
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DB_FILE
+        value: /var/data/memory.db
+      - key: TRUST_PROXY
+        value: "1"
+      - key: RETENTION_DAYS
+        value: "90"
+      - key: ADMIN_TOKEN
+        generateValue: true
+    disk:
+      name: memory
+      mountPath: /var/data
+      sizeGB: 1
