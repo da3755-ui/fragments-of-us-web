@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy · Fragments of Us</title>
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <a href="/" class="mark">fragments of us</a>
+    <nav><a href="/">back to the memory</a></nav>
+  </header>
+
+  <article class="prose">
+    <h1>Privacy and consent</h1>
+    <p class="muted">Last updated 27 October 2026</p>
+
+    <p>Fragments of Us is an art and research project about how digital systems, including AI systems with selective memory, keep, reshape and discard what people share with them. It holds one public text. Every message anyone adds changes that text, and every message someone erases changes it again. This page explains exactly what that means for your words and your data.</p>
+
+    <h2>What happens to your words</h2>
+    <ul>
+      <li><strong>They become public.</strong> Anyone who visits the site can see the memory, and your words become part of it.</li>
+      <li><strong>They are transformed.</strong> The memory is rebuilt from every surviving message, in order, using fixed rules that move whole phrases rather than single words, so it stays readable. A message that shares a word with a remembered sentence strengthens it; a new sentence may be joined to an old one with a small linking word ("while", "where", "until"); a new subject and verb may overwrite an old one, which lingers faintly as a "ghost"; two sentences may exchange subjects (verbs change to agree) or trade place phrases such as "in the rain"; and when the memory is full, the oldest, least-repeated phrases are forgotten first. Your words may end up attached to someone else's sentence, or disappear while your message is still stored.</li>
+      <li><strong>They are retold, never shown as written.</strong> Before anything appears on the site, the whole memory is retold: every subject is paired with another sentence's verb, place phrases move to other sentences, first- and second-person words ("I", "my", "you") become "someone", "they" and "their", everything is put in the past tense, and common words are replaced with near-synonyms ("sea" may become "tide"). A final check makes sure no run of four consecutive words from any message appears in the memory. The result stays readable, but your original message cannot be reconstructed from it. This reduces, but does not remove, the chance that someone recognises what you wrote: an unusual word with no synonym, or a very particular detail, can still show through.</li>
+      <li><strong>They are moderated.</strong> Before anything is stored, an automated check turns away messages that look like they contain contact details, links, handles, names introduced as names, addresses, ID numbers, slurs, sexual content or threats. Because combining words can create new strings, the output is checked too, and anything that trips the filter is masked (░░░). The person running the site may also remove messages by hand. Rejected messages are not stored.</li>
+    </ul>
+
+    <h2>Please do not share identifying information</h2>
+    <p>Leave out names (yours or anyone else's), places you can be found, contact details, health information, and anything you would not want strangers to read and remix. The automated check catches obvious cases, not all of them.</p>
+
+    <h2>What we collect, and what we don't</h2>
+    <table>
+      <tr><th>Stored</th><th>Why</th></tr>
+      <tr><td>The text of your message, after moderation</td><td>It is the material the memory is rebuilt from.</td></tr>
+      <tr><td>A one-way hash (SHA-256) of your deletion token</td><td>So your token can erase your message. We cannot recover the token from the hash, and we cannot tell you your token if you lose it.</td></tr>
+      <tr><td>The calendar day your message arrived (no time)</td><td>To apply the retention limit below.</td></tr>
+      <tr><td>Snapshots of the memory after each message</td><td>These are the "stored outputs": the transformed version you see after submitting. They contain words, not identities.</td></tr>
+    </table>
+    <p>We do <strong>not</strong> store IP addresses, browser or device details, cookies, accounts, email addresses, exact timestamps or analytics. The site loads no third-party scripts, fonts or trackers.</p>
+    <p><strong>There is no limit on how many messages you can add.</strong> The site does not count or slow down your submissions. To keep out automated spam it only turns away messages sent within a couple of seconds of the page loading, messages that fill in a field hidden from people (bots tend to), and exact copies of something already added that day. None of these checks store anything about you.</p>
+    <p>The one thing that is limited is <em>erase attempts</em>: about ten per ten minutes, so nobody can guess deletion tokens by trying thousands of them. For this, the server keeps a short-lived count in memory, keyed only by a salted hash of your IP address. The salt is random and replaced every 24 hours, and the count is never written to disk.</p>
+    <p>If you choose "keep on this device", your deletion token is saved in your own browser's local storage. It never leaves your browser except when you use it to erase. Anyone with access to that browser could use it.</p>
+
+    <h2>Erase my trace</h2>
+    <p>When you submit, you receive a private deletion token, shown once. Using it on <a href="/">the main page</a> ("erase my trace"):</p>
+    <ul>
+      <li>permanently deletes your message and its token hash;</li>
+      <li>deletes the stored snapshot made from your message <em>and every later snapshot</em>, because each of those depended on yours;</li>
+      <li>rebuilds the memory from the remaining messages, so the public text changes, sometimes far beyond the words you contributed.</li>
+    </ul>
+    <p>Erasure is immediate on the live site. If the site operator keeps backups of the database, an erased message may remain in a backup until that backup expires (see below).</p>
+
+    <h2>What erasing cannot undo</h2>
+    <ul>
+      <li><strong>Screenshots and copies.</strong> Anyone can screenshot, copy or record the memory while your words are in it. We cannot find or remove those.</li>
+      <li><strong>Other people's memories of it.</strong> People who read it, read it.</li>
+      <li><strong>Lost tokens.</strong> Without your token we cannot identify which message was yours, and so cannot erase it for you. You can still ask the operator to remove a specific message by describing its wording.</li>
+    </ul>
+
+    <h2>Anonymity is not absolute</h2>
+    <p>We designed the site so that we do not know who you are. That is not the same as guaranteeing nobody could ever work it out. Your phrasing, a detail you mention, or the moment you posted (for example, if someone watched you do it) can point to you. Your internet provider, network administrator and the hosting provider that runs the server can see that you visited the site, as with any website, and the hosting provider may keep its own network logs under its own policy.</p>
+
+    <h2>How long things last</h2>
+    <p>Messages are automatically deleted after <span id="retention">90</span> days, and the memory is rebuilt without them. Forgetting is part of the work. Database backups, if the operator keeps any, should be kept for no longer than 30 days.</p>
+
+    <h2>Who can see what</h2>
+    <p>Visitors see the current memory only. The site never shows which message produced which word, except to the contributor, once, right after they submit. The original text of each message is kept on the server, because the memory is rebuilt from it; it is never shown on the site. The operator can see that stored text in order to moderate, but has no way to link it to people.</p>
+
+    <h2>Age</h2>
+    <p>This project is intended for people aged 16 and over.</p>
+
+    <h2>Your rights and contact</h2>
+    <p>Depending on where you live, you may have rights to access or delete data about you. Because we hold no information that identifies you, the deletion token is the main way to exercise them. For anything else, including asking for a message to be removed by its wording, contact the operator at <strong>[operator contact email]</strong>.</p>
+
+    <h2>Changes</h2>
+    <p>If these practices change, this page will be updated and the date at the top will change. Changes will not apply retroactively to make your data less private.</p>
+  </article>
+
+  <script src="/privacy.js"></script>
+</body>
+</html>
